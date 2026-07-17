@@ -21,7 +21,20 @@ jobs:
       - name: Install dependencies
         run: |
           pip install mlflow scikit-learn pandas numpy matplotlib seaborn joblib dagshub
-
+          
+-       name: Debug - Check files and environment
+        run: |
+          echo "=== Current directory ==="
+          ls -la
+          echo "=== MLproject folder ==="
+          ls -la MLproject/ || echo "Folder MLproject tidak ditemukan"
+          echo "=== Dataset ==="
+          ls -la MLproject/namadataset_preprocessing/ || echo "Dataset tidak ditemukan"
+          echo "=== DAGSHUB_TOKEN exists? ==="
+          if [ -n "$DAGSHUB_USER_TOKEN" ]; then echo "Token exists"; else echo "Token MISSING!"; fi
+        env:
+          DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
+    
       - name: Run MLflow Project
         env:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
