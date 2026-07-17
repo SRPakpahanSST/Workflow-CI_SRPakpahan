@@ -45,7 +45,6 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          # Cari run ID terakhir
           RUN_ID=$(ls -t mlruns/0/ | head -1)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           mlflow models build-docker -m "runs:/$RUN_ID/random_forest_model" -n "srpakpahan/titanic-model:latest"
